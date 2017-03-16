@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery-3.1.1.js"></script>
+    <style>
+        div{
+            float: left;
+            margin-left: 50px;
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            position: relative;
+
+        }
+        div span{
+            position: absolute;
+            bottom: 0;
+            left: 20%;
+        }
+        button{
+          float: left;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div id="box1">
+<table border="1px" width="100px" cellpadding="0" cellspacing="0" class="a" >
+    <tr>
+        <td><input type="checkbox"></td>
+        <td>aaaaaaaaaaaaaa</td>
+    </tr>
+    <tr>
+        <td><input type="checkbox"></td>
+        <td>bbbbbbbbbbbbbbb</td>
+    </tr>
+    <tr>
+        <td><input type="checkbox"></td>
+        <td>ccccccccccccccc</td>
+    </tr>
+    <tr>
+        <td><input type="checkbox"></td>
+        <td>ddddddddddddddd</td>
+    </tr>
+</table>
+    <span>
+    <button id="bRight">右移</button>
+    <button id="quan1">全选</button>
+    <button id="fan1">反选</button>
+    </span>
+</div>
+
+
+<div id="box2">
+    <table border="1px" width="100px" cellpadding="0" cellspacing="0" class="b">
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>eeeeeeeeeeeeee</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>fffffffffffffff</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>gggggggggggggggg</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>hhhhhhhhhhhhhhhh</td>
+        </tr>
+    </table>
+    <span>
+    <button id="bLeft">左移</button>
+    <button id="quan2">全选</button>
+    <button id="fan2">反选</button>
+    </span>
+</div>
+
+
+
+
+
+
+<script>
+    $(function(){
+
+        $("tr:even").css("background-color","red");
+        $("tr:odd").css("background-color","blue");
+
+        $(".a :checkbox").click(function(){
+//           var str= $(this).parent().parent().css('background-color');
+            console.log(str);
+            if(this.checked){
+                    $(this).parent().parent().css("background","yellow");
+                }else{
+                    $(this).parent().parent().css("background","#FFFFFF");
+                }
+        });
+
+        $("#quan1").click(function(){
+           $(".a :checkbox").prop("checked","checked").parent().parent().css("background","yellow");
+        });
+        $("#fan1").click(function(){
+            $(".a :checkbox").each(function () {
+                if($(this).prop("checked")){
+                    $(this).prop("checked", false).parent().parent().css("background","#FFFFFF");
+                }else{
+                    $(this).prop("checked", true).parent().parent().css("background","yellow");
+                }
+//                $(this).prop("checked", !$(this).prop("checked"));
+            });
+        });
+       $("#bRight").click(function(){
+           $(".a :checkbox").each(function(){
+               if(this.checked){
+                   $(this).parent().parent().appendTo($('.b'))
+               }
+           })
+       });
+
+
+
+
+
+        $(".b :checkbox").click(function(){
+            if(this.checked){
+                $(this).parent().parent().css("background","yellow");
+            }else{
+                $(this).parent().parent().css("background","#FFFFFF");
+            }
+        });
+        $("#quan2").click(function(){
+            $(".b :checkbox").prop("checked","checked").parent().parent().css("background","yellow");
+        });
+        $("#fan2").click(function(){
+            $(".b :checkbox").each(function () {
+                if($(this).prop("checked")){
+                    $(this).prop("checked", false).parent().parent().css("background","#FFFFFF");
+                }else{
+                    $(this).prop("checked", true).parent().parent().css("background","yellow");
+                }
+//                $(this).prop("checked", !$(this).prop("checked"));
+            });
+        });
+        $("#bLeft").click(function(){
+            $(".b :checkbox").each(function(){
+                if(this.checked){
+                    $(this).parent().parent().appendTo($('.a'))
+                }
+            })
+        })
+
+
+
+
+    })
+
+
+
+</script>
+
+</body>
+</html>
