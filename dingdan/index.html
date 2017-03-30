@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery-3.1.1.js"></script>
+    <style>
+        *{margin: 0;padding: 0}
+        .warp{
+            width: 820px;
+            margin: 0 auto;
+        }
+        .box{
+            width: 800px;
+            height: 100px;
+            border: 1px solid black;
+            overflow-y: scroll;
+        }
+        .box div{
+            width: 700px;
+            height: 200px;
+        }
+
+
+
+    </style>
+
+
+</head>
+<body>
+<div class="warp">
+<table border="1px" cellpadding="0" cellspacing="0" width="800px" class="tab">
+    <tr style="width: 500px">
+        <th></th>
+        <th>序号</th>
+        <th>品牌</th>
+        <th>产品名称</th>
+        <th>产品价格</th>
+        <th>颜色分类</th>
+        <th>库存量</th>
+        <th>套餐</th>
+    </tr>
+    <!--<tr>-->
+        <!--<td><input type="checkbox"></td>-->
+        <!--<td>1</td>-->
+        <!--<td>小米</td>-->
+        <!--<td>小米5s</td>-->
+        <!--<td>1899</td>-->
+        <!--<td>-->
+            <!--<input type="radio" name="color">黑色-->
+            <!--<input type="radio" name="color">红色-->
+            <!--<input type="radio" name="color">金色-->
+        <!--</td>-->
+        <!--<td>999</td>-->
+        <!--<td>官方标配</td>-->
+    <!--</tr>-->
+</table>
+
+<p>选择你的收货地址：
+    <select class="s1">
+        <option>--省份--</option>
+    </select>
+    <select class="s2">
+        <option>--市级--</option>
+    </select>
+    <select class="s3">
+        <option>--区县--</option>
+    </select>
+    <input type="text" class="site">
+    <button class="btn">提交订单</button>
+</p>
+<div class="box">
+    <div>
+        <!--<p>订单信息：</p>-->
+        <!--<p>订单信息订单信息订单信息</p>-->
+        <!--<p>订单信息订单信息订单信息</p>-->
+        <!--<p>订单信息订单信息订单信息</p>-->
+        <!--<p>订单信息订单信息订单信息</p>-->
+        <!--<p>订单信息订单信息订单信息</p>-->
+        <!--<p>订单信息订单信息订单信息</p>-->
+    </div>
+
+
+
+</div>
+</div>
+
+
+<script>
+    $(function(){
+        $.ajax({
+            url:"goods.json",
+            type:"get",
+            dataType:"json",
+            data:{},
+            async:true,
+            success:function(val){
+//                console.log(val);
+                var num=0;
+//                var a=val.goodsdata;
+                $.each(val,function(x,y){
+//                  console.log(y.goodsdata);
+//                    console.log(y.goodsname);
+                 var brand= y.goodsname;
+                    var str="";
+                    $.each(y.goodsdata,function(m,n){
+                        num++;
+//                        console.log(n);
+                        var cols="";
+                        cols= n.colors;
+                        str+="<tr>"+"<td>"+"<input type='checkbox'>"+"</td>"+"<td>"+num+"</td>"+"<td>"+ brand+"</td>"+"<td>"+ n.name+"</td>"+"<td>"+ n.money+"</td>"+"<td>"+"<input type='radio' name="+'col'+num+" value="+cols[0]+">"+cols[0]+"<input type='radio' name="+'col'+num+"  value="+cols[1]+">"+cols[1]+"<input type='radio' name="+'col'+num+"  value="+cols[2]+">"+cols[2]+"</td>"+"<td>"+ n.stock+"</td>"+"<td>"+ n.suit+"</td>"+"</tr>"
+                    });
+                    $(".tab").append(str);
+                })
+            }
+        });
+
+        $.ajax({
+            url:"city.json",
+            type:"get",
+            dataType:"json",
+            data:{},
+            async:true,
+            success:function(pro){
+//                console.log(pro);
+                city=pro.c;
+                dist=pro.a;
+//                console.log(city);
+                var province;
+                $.each(pro.p,function(e,f){
+//                    console.log(f);
+                    province+="<option>"+f+"</option>";
+                });
+                $(".s1").append(province);
+            }
+        });
+
+        $(".s1").change(function(){
+            _one= $(this).val();
+//            console.log(_one)
+          var stt="";
+
+            $.each(city,function(o,p){
+                if(_one==o){
+//                    console.log(p);
+                    $.each(p,function(j,k){
+//                        console.log(k);
+                        stt+="<option>"+k+"</option>"
+                    });
+                }
+//                console.log(stt);
+                $(".s2").html(stt);
+            })
+        });
+
+        $(".s2").change(function(){
+             _two=$(this).val();
+            var _ot=_one+"-"+_two;
+//            console.log(_ot);
+
+            $.each(dist,function(o,p){
+//                console.log(o)
+                var xx="";
+                if(_ot==o){
+                    $.each(p,function(c,d){
+                        xx+="<option>"+d+"</option>"
+                    });
+                    $(".s3").html(xx);
+//                    console.log(p)
+                }
+            })
+        });
+        $(".s3").change(function(){
+            _three=$(this).val();
+        });
+
+        $(".btn").click(function(){
+            var pick="";
+            var message="";
+            var mon=null;
+
+           var di= $(".site").val();
+
+            $(":checkbox:checked").each(function(a,b){
+//                console.log(b);
+//                console.log(this);
+
+         var product= $(this).parent().parent().children().eq(3).text();
+                var setM= $(this).parent().parent().children().eq(7).text();
+                var color_s= $(this).parent().parent().children().eq(5).children(":radio:checked").val();
+//                console.log( color_s);
+                var  _moneys=$(this).parent().parent().children().eq(4).text();
+
+                pick+="<p>"+product+"&nbsp;&nbsp;"+color_s+"&nbsp;&nbsp;"+setM+"&nbsp;&nbsp;"+_moneys+"</p>";
+                mon+=Number(_moneys);
+
+//                console.log(mon);
+//                console.log(product);
+//                console.log(setM);
+
+                var add="地址："+_one+_two+_three+di;
+                message="<p>"+"订单信息："+"</p>"+pick+"<p>"+"总价："+mon+"</p>"+"<p>"+add+"</p>";
+            });
+            $(".box div").html(message);
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+    })
+</script>
+
+
+
+
+</body>
+</html>
