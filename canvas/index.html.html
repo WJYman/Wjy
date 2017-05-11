@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+		*{margin: 0;padding: 0;}
+		#can{
+				background: pink;
+				border:1px solid black;
+		}
+		#can:hover{
+				animation: aaa infinite 0.3s;
+				border-radius: 50%;
+			}
+			@keyframes aaa{
+				0%{transform: scale(1) rotate(0deg);background:red;}
+				25%{transform: scale(1) rotate(90deg);background:yellow;}
+				50%{transform: scale(1) rotate(180deg);}
+				75%{transform: scale(1) rotate(270deg);}
+				100%{transform: scale(1) rotate(360deg);}
+			}
+			
+			
+			
+			.one{
+				margin: 50px;
+				width: 100px;
+				height: 100px;
+				background: red;
+			}
+			.one:hover{
+				
+				animation: bbb infinite 0.3s;
+			}
+			@keyframes bbb{
+				0%{transform: rotate(0deg);}
+				25%{transform: rotate(90deg);}
+				50%{transform: rotate(180deg);}
+				75%{transform: rotate(270deg);}
+				100%{transform: rotate(360deg);}
+			}
+		
+		</style>
+	</head>
+	<body>
+		
+		<div class="one"></div>
+	
+		<canvas id="can" width="400" height="400"></canvas>
+		
+		<script>
+			var ca=document.getElementById("can");
+			var	canv=ca.getContext("2d");
+			
+			var num=['sandybrown','red','blue','green','sienna','white'];
+			var num1=[0,0.25,0.5,0.75,1]
+			
+			canv.beginPath();
+				canv.fillStyle="slategray";
+				canv.moveTo(200,200);
+				canv.arc(200,200,150,0,2*Math.PI);
+				canv.fill();
+			canv.closePath();
+			
+			
+			canv.beginPath();
+				canv.fillStyle=num[0];
+				canv.moveTo(200,200);
+				canv.arc(200,200,100,0,2*Math.PI*num1[1]);
+				canv.fill();
+			canv.closePath();
+			
+			canv.beginPath();
+				canv.fillStyle=num[1];
+				canv.moveTo(200,200);
+				canv.arc(200,200,100,2*Math.PI*num1[1],2*Math.PI*num1[2]);
+				canv.fill();
+			canv.closePath();
+			
+			canv.beginPath();
+				canv.fillStyle=num[2];
+				canv.moveTo(200,200);
+				canv.arc(200,200,100,2*Math.PI*num1[2],2*Math.PI*num1[3]);
+				canv.fill();
+			canv.closePath();
+			
+			canv.beginPath();
+				canv.fillStyle=num[3];
+				canv.moveTo(200,200);
+				canv.arc(200,200,100,2*Math.PI*num1[3],2*Math.PI*num1[4]);
+				canv.fill();
+			canv.closePath();
+			
+		
+			
+			canv.beginPath();
+				canv.fillStyle=num[5];
+				canv.moveTo(200,200);
+				canv.arc(200,200,50,0,2*Math.PI);
+				canv.fill();
+			canv.closePath();
+			
+
+			
+		
+		</script>
+		
+		
+	</body>
+</html>
